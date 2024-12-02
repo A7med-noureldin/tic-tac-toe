@@ -1,3 +1,0 @@
-C:/Me/college/oop/assignment2/task 2,3,4,5/cmake-build-debug/CMakeFiles/task_2_3_4_5.dir
-C:/Me/college/oop/assignment2/task 2,3,4,5/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Me/college/oop/assignment2/task 2,3,4,5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
