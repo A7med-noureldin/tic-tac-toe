@@ -69,7 +69,7 @@ bool Board_XO<T>::update_board(int x, int y, T symbol) {
 template<typename T>
 void Board_XO<T>::display_board() {
     bool good = true;
-    cout << setw(19);
+    cout << endl << setw(19);
     for (int i = 0; i < 3; i++) {
         if (i == 1)
             cout << setw(10);
@@ -88,11 +88,6 @@ void Board_XO<T>::display_board() {
 }
 
 template<typename T>
-bool Board_XO<T>::game_is_over() {
-    return (is_win() || is_draw());
-}
-
-template<typename T>
 bool Board_XO<T>::is_draw() {
     return (this->n_moves == 9 && !is_win());
 }
@@ -100,37 +95,42 @@ bool Board_XO<T>::is_draw() {
 template<typename T>
 bool Board_XO<T>::is_win() {
     //check Rows
-    if(this->board[1][1] == this->board[1][2] && this->board[1][1] == this->board[1][3]){
+    if(this->board[1][1] == this->board[1][2] && this->board[1][1] == this->board[1][3] && this->board[1][1] != 0){
         return true;
     }
 
-    if(this->board[2][0] == this->board[2][1] && this->board[2][0] == this->board[2][2]){
+    if(this->board[2][0] == this->board[2][1] && this->board[2][0] == this->board[2][2] && this->board[2][0] != 0){
         return true;
     }
 
-    if(this->board[2][1] == this->board[2][2] && this->board[2][1] == this->board[2][3]){
+    if(this->board[2][1] == this->board[2][2] && this->board[2][1] == this->board[2][3] && this->board[2][1] != 0){
         return true;
     }
 
-    if(this->board[2][2] == this->board[2][3] && this->board[2][2] == this->board[2][4]){
+    if(this->board[2][2] == this->board[2][3] && this->board[2][2] == this->board[2][4] && this->board[2][2] != 0){
         return true;
     }
 
     //check Column
-    if(this->board[2][2] == this->board[0][2] && this->board[2][2] == this->board[1][2]){
+    if(this->board[2][2] == this->board[0][2] && this->board[2][2] == this->board[1][2] && this->board[2][2] != 0){
         return true;
     }
 
     //check Diagonals
-    if(this->board[0][2] == this->board[1][3] && this->board[0][2] == this->board[2][4]){
+    if(this->board[0][2] == this->board[1][3] && this->board[0][2] == this->board[2][4] && this->board[0][2] != 0){
         return true;
     }
 
-    if(this->board[0][2] == this->board[1][1] && this->board[0][2] == this->board[2][0]){
+    if(this->board[0][2] == this->board[1][1] && this->board[0][2] == this->board[2][0] && this->board[0][2] != 0){
         return true;
     }
 
     return false;
+}
+
+template<typename T>
+bool Board_XO<T>::game_is_over() {
+    return (is_win() || is_draw());
 }
 
 ///////----------------------Player Implementation----------------------///////
@@ -140,7 +140,7 @@ Player_XO<T>::Player_XO(string name, T symbol):Player<T>(name, symbol) {}
 
 template<typename T>
 void Player_XO<T>::getmove(int &x, int &y) {
-    cout << "\nPlease enter your move x and y (0 to 2) separated by spaces: ";
+    cout << "\nPlease enter your move x (0 to 2) and y (0 to 4) separated by spaces: ";
     cin >> x >> y;
 }
 
@@ -148,15 +148,14 @@ void Player_XO<T>::getmove(int &x, int &y) {
 
 template<typename T>
 RandomPlayer_XO<T>::RandomPlayer_XO(T symbol):RandomPlayer<T>(symbol) {
-    this->dimension = 3;
     this->name = "Random Computer Player";
     srand(static_cast<unsigned int>(time(0)));
 }
 
 template<typename T>
 void RandomPlayer_XO<T>::getmove(int &x, int &y) {
-    x = rand() % this->dimension;  //Rows = 3
-    y = rand() % (this->dimension+2); // Columns = 5
+    x = rand() % 3;  //Rows = 3
+    y = rand() % 5; // Columns = 5
 }
 
 #endif //GAMETEST_PYRAMID_XO_H
