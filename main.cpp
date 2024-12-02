@@ -72,6 +72,7 @@ int main() {
             return 1;
     }
 
+
     // Create the game manager and run the game
     GameManager<char> x_o_game(B, players);
     x_o_game.run();
