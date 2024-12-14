@@ -9,12 +9,10 @@ template <typename T>
 class Board {
 protected:
     int rows, columns;
-    T** board;
     int n_moves = 0;
+    T** board;
 
 public:
-
-
     /// Return true if move is valid and put it on the board
     /// within board boundaries in an empty cell
     /// Return false otherwise
@@ -99,6 +97,7 @@ void GameManager<T>::run() {
 
     while (!boardPtr->game_is_over()) {
         for (int i : {0, 1}) {
+            cout << "Getting move" << endl;
             players[i]->getmove(x, y);
             while (!boardPtr->update_board(x, y, players[i]->getsymbol())) {
                 players[i]->getmove(x, y);
@@ -152,6 +151,7 @@ T Player<T>::getsymbol() {
 template <typename T>
 void Player<T>::setBoard(Board<T>* b) {
     this->boardPtr = b;
+    cout << "Board pointer set for player: " << this->name << endl;
 }
 
 
