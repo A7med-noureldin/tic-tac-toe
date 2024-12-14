@@ -34,6 +34,8 @@ public:
 ///////--------------------------------Implementation---------------------------------------///////
 ///////----------------------Board Implementation----------------------///////
 
+bool comp = false;
+
 template<typename T>
 Board4_4<T>::Board4_4() {
     this->rows = this->columns = 4;
@@ -54,16 +56,38 @@ template<typename T>
 bool Board4_4<T>::update_board(int n, int m, T symbol) {
     int x, y;
     if(this->board[n][m] == 'X' || this->board[n][m] == 'O'){
+        if(this->board[n][m] != symbol && !comp){
+            cout << "\nPlease choose the cell that contain " << symbol << " symbol!\n";
+            return false;
+        }
+        else if(this->board[n][m] != symbol){
+            return false;
+        }
+
         char c = this->board[n][m];
         this->board[n][m] = 0;
-        cout << "\nPlease enter the position you want to move to: ";
-        cin >> x >> y;
+
+        if(comp){
+            x = rand() % 4;
+            y = rand() % 4;
+        }
+        else {
+            cout << "\nPlease enter the position you want to move to: ";
+            cin >> x >> y;
+        }
 
         while(this->board[x][y] != 0 || (x < 0 || x >= this->rows || y < 0 || y >= this->columns) ||
         !(n == x && abs(m-y) == 1 || m == y && abs(x-n) == 1) || (x == y && n == m && abs(n-x) == 1)){
-            cout << "\nPlease enter valid position you want to move to: ";
-            cin >> x >> y;
+            if(comp){
+                x = rand() % 4;
+                y = rand() % 4;
+            }
+            else {
+                cout << "\nPlease enter valid position you want to move to: ";
+                cin >> x >> y;
+            }
         }
+        comp = false;
         this->board[x][y] = c;
         return true;
     }
@@ -73,7 +97,7 @@ bool Board4_4<T>::update_board(int n, int m, T symbol) {
 template<typename T>
 void Board4_4<T>::display_board() {
     for (int i = 0; i < this->rows; i++) {
-        cout << "\n| ";
+        cout << "\n|";
         for (int j = 0; j < this->columns; j++) {
             cout << "(" << i << "," << j << ")";
             cout << setw(2) << this->board[i][j] << " |";
@@ -93,8 +117,8 @@ bool Board4_4<T>::is_win() {
     for (int i = 0; i < this->rows; i++) {
         if ((this->board[i][0] == this->board[i][1] && this->board[i][1] == this->board[i][2] && this->board[i][0] != 0) ||
             (this->board[0][i] == this->board[1][i] && this->board[1][i] == this->board[2][i] && this->board[0][i] != 0) ||
-            (this->board[i][1] == this->board[i][2] && this->board[i][1] == this->board[i][3] && this->board[i][0] != 0) ||
-            (this->board[1][i] == this->board[2][i] && this->board[1][i] == this->board[3][i] && this->board[0][i] != 0)) {
+            (this->board[i][1] == this->board[i][2] && this->board[i][1] == this->board[i][3] && this->board[i][1] != 0) ||
+            (this->board[1][i] == this->board[2][i] && this->board[1][i] == this->board[3][i] && this->board[1][i] != 0)) {
             return true;
         }
     }
@@ -141,6 +165,7 @@ template<typename T>
 void RandomPlayer4_4<T>::getmove(int &x, int &y) {
     x = rand() % 4;  //Rows = 4
     y = rand() % 4; // Columns = 4
+    comp = true;
 }
 
 #endif //GAMETEST_TICTACTOE_PROB7_H
