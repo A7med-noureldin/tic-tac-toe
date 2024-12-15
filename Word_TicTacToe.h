@@ -1,5 +1,5 @@
-#ifndef GAMES_WORD_TICTACTOE_H
-#define GAMES_WORD_TICTACTOE_H
+#ifndef GAMETEST_WORD_TICTACTOE_H
+#define GAMETEST_WORD_TICTACTOE_H
 
 #include "BoardGame_Classes.h"
 #include <bits/stdc++.h>
@@ -208,4 +208,4 @@ void RandomPlayer_Word<T>::getmove(int &x, int &y) {
     this->symbol = alpha[pos];
 }
 
-#endif //GAMES_WORD_TICTACTOE_H
+#endif //GAMETEST_WORD_TICTACTOE_H

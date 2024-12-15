@@ -27,7 +27,7 @@ public:
 template <typename T>
 class RandomPlayer_XO : public RandomPlayer<T>{
 public:
-    RandomPlayer_XO (T symbol);
+    RandomPlayer_XO (string name,T symbol);
     void getmove(int &x, int &y);
 };
 
@@ -147,8 +147,8 @@ void Player_XO<T>::getmove(int &x, int &y) {
 ///////----------------------Random Player Implementation----------------------///////
 
 template<typename T>
-RandomPlayer_XO<T>::RandomPlayer_XO(T symbol):RandomPlayer<T>(symbol) {
-    this->name = "Random Computer Player";
+RandomPlayer_XO<T>::RandomPlayer_XO(string s, T symbol):RandomPlayer<T>(symbol) {
+    this->name = s;
     srand(static_cast<unsigned int>(time(0)));
 }
 
