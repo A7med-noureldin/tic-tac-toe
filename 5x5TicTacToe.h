@@ -21,12 +21,14 @@ public:
     bool is_draw();
     bool game_is_over();
     pair<int, int> get_scores();
+};
 
 template <typename T>
 class TicTacToePlayer : public Player<T> {
 public:
     TicTacToePlayer(string name, T symbol);
     void getmove(int& x, int& y);
+    void setName(string name);
 };
 
 template <typename T>
@@ -99,7 +101,8 @@ int TicTacToe5x5Board<T>::count_three_in_a_row(T symbol) {
 }
 
 template <typename T>
-bool TicTacToe5x5Board<T>::is_win() { /
+bool TicTacToe5x5Board<T>::is_win() {
+    // Implement win condition logic here
     return false;
 }
 
@@ -130,6 +133,11 @@ void TicTacToePlayer<T>::getmove(int& x, int& y) {
     cin >> x >> y;
 }
 
+template <typename T>
+void TicTacToePlayer<T>::setName(string namee) {
+    this->name = namee;
+}
+
 // Constructor for random computer player
 template <typename T>
 TicTacToeRandomPlayer<T>::TicTacToeRandomPlayer(T symbol) : RandomPlayer<T>(symbol) {
@@ -143,4 +151,3 @@ void TicTacToeRandomPlayer<T>::getmove(int& x, int& y) {
 }
 
 #endif //_5X5TICTACTOE_H
-
