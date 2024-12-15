@@ -1,229 +1,113 @@
-#include <bits/stdc++.h>
+#include <iostream>
 #include "BoardGame_Classes.h"
-#include "Pyramid_XO.h"
-#include "Pyramid_XO_AI.h"
-#include "Word_TicTacToe.h"
-#include "TicTacToe_Prob7.h"
-
+#include "5x5TicTacToe.h"
 using namespace std;
 
 int main() {
-    /*
-    cout << "The board contains cells [ x , y ] , every cell has row number (x) and column number (y)\n";
-    cout << "so this is the board and each cell's information :\n";
-    cout << "                   -- [ 0 , 2 ] -- \n";
-    cout << "          - [ 1 , 1 ] [ 1 , 2 ] [ 1 , 3 ] - \n";
-    cout << "  [ 2 , 0 ] [ 2 , 1 ] [ 2 , 2 ] [ 2 , 3 ] [ 2 , 4 ] \n";
-    cout << "-----------------------------------------------------\n";
-    cout << "You have to enter the row's number first , then the column's number(space between 'EM). \n";
-    cout << "                    Have a good game! :)                         \n";
-    cout << endl;
-
-    int choice;
+    int choice1, choice2;
     Player<char>* players[2];
-    Board_XO<char>* B = new Board_XO<char>();
-    string playerXName, player2Name;
+    TicTacToe5x5Board<char>* board = new TicTacToe5x5Board<char>();
+    string playerXName, playerOName;
 
-    cout << "Welcome to FCAI X-O Game. :)\n";
+    cout << "Welcome to FCAI 5x5 Tic-Tac-Toe Game. :)\n";
 
-    // Set up player 1
-    cout << "Enter Player X name: ";
-    cin >> playerXName;
+    // Set up player X type first
     cout << "Choose Player X type:\n";
     cout << "1. Human\n";
     cout << "2. Random Computer\n";
-    cout << "3. Smart Computer (AI)\n";
-    cin >> choice;
+    cin >> choice1;
 
-    switch(choice) {
-        case 1:
-            players[0] = new Player_XO<char>(playerXName, 'X');
-            break;
-        case 2:
-            players[0] = new RandomPlayer_XO<char>(playerXName, 'X');
-            break;
-        case 3:
-            players[0] = new PyramidAI<char>(playerXName, 'X');
-            players[0]->setBoard(B);
-            break;
-        default:
-            cout << "Invalid choice for Player 1. Exiting the game.\n";
-            return 1;
+    // Ask for player X name only if human
+    if (choice1 == 1) {
+        cout << "Enter Player X name: ";
+        cin >> playerXName;
+    } else {
+        playerXName = "Random Computer X"; // Default name for random player
     }
 
-    // Set up player 2
-    cout << "Enter Player 2 name: ";
-    cin >> player2Name;
-    cout << "Choose Player 2 type:\n";
+    // Set up player O type
+    cout << "Choose Player O type:\n";
     cout << "1. Human\n";
     cout << "2. Random Computer\n";
-    cout << "3. Smart Computer (AI)\n";
-    cin >> choice;
+    cin >> choice2;
 
-    switch(choice) {
+    // Ask for player O name only if human
+    if (choice2 == 1) {
+        cout << "Enter Player O name: ";
+        cin >> playerOName;
+    } else {
+        playerOName = "Random Computer O"; // Default name for random player
+    }
+
+    // Set up player X
+    switch (choice1) {
         case 1:
-            players[1] = new Player_XO<char>(player2Name, 'O');
+            players[0] = new TicTacToePlayer<char>(playerXName, 'X');
             break;
         case 2:
-            players[1] = new RandomPlayer_XO<char>(player2Name, 'O');
-            break;
-        case 3:
-            players[1] = new PyramidAI<char>(player2Name, 'O');
-            players[1]->setBoard(B);
+            players[0] = new TicTacToeRandomPlayer<char>('X');
             break;
         default:
-            cout << "Invalid choice for Player 2. Exiting the game.\n";
+            cout << "Invalid choice for Player X. Exiting the game.\n";
+            delete board;
             return 1;
     }
 
+    // Set up player O
+    switch (choice2) {
+        case 1:
+            players[1] = new TicTacToePlayer<char>(playerOName, 'O');
+            break;
+        case 2:
+            players[1] = new TicTacToeRandomPlayer<char>('O');
+            break;
+        default:
+            cout << "Invalid choice for Player O. Exiting the game.\n";
+            delete board;
+            return 1;
+    }
+
+    // If one player is random, set the name accordingly
+    if (choice1 == 2) {
+        playerXName = "Random Computer X";
+    }
+    if (choice2 == 2) {
+        playerOName = "Random Computer O";
+    }
+
+    // Update player names for display
+    static_cast<TicTacToePlayer<char>*>(players[0])->setName(playerXName);
+    static_cast<TicTacToePlayer<char>*>(players[1])->setName(playerOName);
 
     // Create the game manager and run the game
-    GameManager<char> x_o_game(B, players);
-    x_o_game.run();
+    GameManager<char> game_manager(board, players);  // Create game manager
+    game_manager.run();  // Start the game
+
+    // Display final scores
+    auto scores = board->get_scores();
+    cout << "Final Scores:\n";
+    cout << playerXName << " (X): " << scores.first << "\n";
+    cout << playerOName << " (O): " << scores.second << "\n";
+
+    if (scores.first > scores.second)
+    {
+        cout << playerXName << " wins!\n";
+    }
+    else if (scores.second > scores.first)
+    {
+        cout << playerOName << " wins!\n";
+    }
+    else
+    {
+        cout << "It's a draw!\n";
+    }
 
     // Clean up
-    delete B;
-    for (int i = 0; i < 2; ++i) {
-        delete players[i];
-    }
-*/
-
-    int choice;
-    Player<char>* players[2];
-    Board_Word<char>* B = new Board_Word<char>();
-    string playerName, player2Name;
-
-    cout << "Welcome to FCAI X-O Game. :)\n";
-
-    // Set up player 1
-    cout << "Enter Player X name: ";
-    cin >> playerName;
-    cout << "Choose Player X type:\n";
-    cout << "1. Human\n";
-    cout << "2. Random Computer\n";
-//    cout << "3. Smart Computer (AI)\n";
-    cin >> choice;
-
-    switch(choice) {
-        case 1:
-            players[0] = new Player_Word<char>(playerName, 'a');
-            break;
-        case 2:
-            players[0] = new RandomPlayer_Word<char>(playerName, 'a');
-            break;
-//        case 3:
-//            players[0] = new X_O_MinMax_Player<char>('X');
-//            players[0]->setBoard(B);
-//            break;
-        default:
-            cout << "Invalid choice for Player 1. Exiting the game.\n";
-            return 1;
-    }
-
-    // Set up player 2
-    cout << "Enter Player 2 name: ";
-    cin >> player2Name;
-    cout << "Choose Player 2 type:\n";
-    cout << "1. Human\n";
-    cout << "2. Random Computer\n";
-//    cout << "3. Smart Computer (AI)\n";
-    cin >> choice;
-
-    switch(choice) {
-        case 1:
-            players[1] = new Player_Word<char>(player2Name, 'a');
-            break;
-        case 2:
-            players[1] = new RandomPlayer_Word<char>(player2Name, 'a');
-            break;
-//        case 3:
-//            players[1] = new X_O_MinMax_Player<char>('O');
-//            players[1]->setBoard(B);
-//            break;
-        default:
-            cout << "Invalid choice for Player 2. Exiting the game.\n";
-            return 1;
-    }
-
-
-    // Create the game manager and run the game
-    GameManager<char> x_o_game(B, players);
-    x_o_game.run();
-
-    // Clean up
-    delete B;
-    for (int i = 0; i < 2; ++i) {
+    delete board;
+    for (int i = 0; i < 2; ++i)
+    {
         delete players[i];
     }
 
-/*
-    int choice;
-    Player<char>* players[2];
-    Board4_4<char>* B = new Board4_4<char>();
-    string playerName, player2Name;
-
-    cout << "Welcome to FCAI X-O Game. :)\n";
-
-    // Set up player 1
-    cout << "Enter Player X name: ";
-    cin >> playerName;
-    cout << "Choose Player X type:\n";
-    cout << "1. Human\n";
-    cout << "2. Random Computer\n";
-    cout << "3. Smart Computer (AI)\n";
-    cin >> choice;
-
-    switch(choice) {
-        case 1:
-            players[0] = new Player4_4<char>(playerName, 'X');
-            break;
-        case 2:
-            players[0] = new RandomPlayer4_4<char>(playerName, 'X');
-            break;
-//        case 3:
-//            players[0] = new PyramidAI<char>(playerName, 'X');
-//            players[0]->setBoard(B);
-//            break;
-        default:
-            cout << "Invalid choice for Player 1. Exiting the game.\n";
-            return 1;
-    }
-
-    // Set up player 2
-    cout << "Enter Player 2 name: ";
-    cin >> player2Name;
-    cout << "Choose Player 2 type:\n";
-    cout << "1. Human\n";
-    cout << "2. Random Computer\n";
-    cout << "3. Smart Computer (AI)\n";
-    cin >> choice;
-
-    switch(choice) {
-        case 1:
-            players[1] = new Player4_4<char>(player2Name, 'O');
-            break;
-        case 2:
-            players[1] = new RandomPlayer4_4<char>(player2Name, 'O');
-            break;
-//        case 3:
-//            players[1] = new PyramidAI<char>(player2Name, 'O');
-//            players[1]->setBoard(B);
-//            break;
-        default:
-            cout << "Invalid choice for Player 2. Exiting the game.\n";
-            return 1;
-    }
-
-
-    // Create the game manager and run the game
-    GameManager<char> x_o_game(B, players);
-    x_o_game.run();
-
-    // Clean up
-    delete B;
-    for (int i = 0; i < 2; ++i) {
-        delete players[i];
-    }
-*/
     return 0;
 }
