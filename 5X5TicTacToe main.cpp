@@ -89,17 +89,23 @@ int main() {
     cout << playerXName << " (X): " << scores.first << "\n";
     cout << playerOName << " (O): " << scores.second << "\n";
 
-    if (scores.first > scores.second) {
+    if (scores.first > scores.second)
+    {
         cout << playerXName << " wins!\n";
-    } else if (scores.second > scores.first) {
+    }
+    else if (scores.second > scores.first)
+    {
         cout << playerOName << " wins!\n";
-    } else {
+    }
+    else
+    {
         cout << "It's a draw!\n";
     }
 
     // Clean up
     delete board;
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < 2; ++i)
+    {
         delete players[i];
     }
 
