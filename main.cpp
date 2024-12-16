@@ -8,6 +8,8 @@
 #include "MisereX_O_Game.h"
 #include "G9x9_X_O.h"
 #include "TicTacToe_Prob7.h"
+#include "MinMaxPlayer.h"
+#include "Pyramid_XO_AI.h"
 using namespace std;
 
 int getChoice(int max) {
@@ -17,7 +19,7 @@ int getChoice(int max) {
         cin >> choice;
 
         if (choice >= 1 && choice <= max) {
-            return choice; // Return valid choice
+            return choice;
         } else {
             cout << "Invalid choice. Please enter a number between " << 1 << " and " << max << ".\n";
         }
@@ -86,27 +88,43 @@ int main() {
                 cout << "Invalid choice. Please enter a number between " << 0 << " and " << 8 << ".\n";
             }
         }
-        // Set up players
-        string player1Name, player2Name;
-        int player1Type, player2Type;
+        string player1Name = "1", player2Name = "2";
+        int player1Type = 0, player2Type = 0;
+        if(!(choice == 1 || choice == 6)){
+            // Set up players
+            cout << "Enter Player 1 name: ";
+            cin >> player1Name;
+            cout << "Choose Player 1 type:\n";
+            cout << "1. Human\n2. Random Computer\n";
+            player1Type = getChoice(2);
 
-        cout << "Enter Player 1 name: ";
-        cin >> player1Name;
-        cout << "Choose Player 1 type:\n";
-        cout << "1. Human\n2. Random Computer\n";
-        player1Type = getChoice(2);
+            cout << "Enter Player 2 name: ";
+            cin >> player2Name;
+            cout << "Choose Player 2 type:\n";
+            cout << "1. Human\n2. Random Computer\n";
+            player2Type = getChoice(2);
+        }
 
-        cout << "Enter Player 2 name: ";
-        cin >> player2Name;
-        cout << "Choose Player 2 type:\n";
-        cout << "1. Human\n2. Random Computer\n";
-        player2Type = getChoice(2);
         string playersNames[2] = {player1Name, player2Name};
         int playersTypes[2] = {player1Type, player2Type};
 
         switch (choice) {
-            case 1:
+            case 1:{
                 board = new Board_Pyramid<char>();
+                // Set up players
+                cout << "Enter Player 1 name: ";
+                cin >> player1Name;
+                cout << "Choose Player 1 type:\n";
+                cout << "1. Human\n2. Random Computer\n3. AI Computer\n";
+                player1Type = getChoice(3);
+
+                cout << "Enter Player 2 name: ";
+                cin >> player2Name;
+                cout << "Choose Player 2 type:\n";
+                cout << "1. Human\n2. Random Computer\n3. AI Computer\n";
+                player2Type = getChoice(3);
+                string playersNames[2] = {player1Name, player2Name};
+                int playersTypes[2] = {player1Type, player2Type};
                 for (int i = 0; i < 2; ++i) {
                     switch(playersTypes[i]) {
                         case 1: {
@@ -117,9 +135,15 @@ int main() {
                             players[i] = new RandomPlayer_Pyramid<char>((i ? 'B' : 'A'));
                             break;
                         }
+                        case 3: {
+                            players[i] = new PyramidAI<char>(playersNames[i],(i ? 'B' : 'A'));
+                            players[i]->setBoard(board);
+                            break;
+                        }
                     }
                 }
                 break;
+            }
             case 2:
                 board = new Connect4_board<char>();
                 for (int i = 0; i < 2; ++i) {
@@ -174,9 +198,21 @@ int main() {
             case 6:
             {
                 board = new MisereX_O_Board<char>();
+                // Set up players
+                cout << "Enter Player 1 name: ";
+                cin >> player1Name;
+                cout << "Choose Player 1 type:\n";
+                cout << "1. Human\n2. Random Computer\n3. AI Computer\n";
+                player1Type = getChoice(3);
+
+                cout << "Enter Player 2 name: ";
+                cin >> player2Name;
+                cout << "Choose Player 2 type:\n";
+                cout << "1. Human\n2. Random Computer\n3. AI Computer\n";
+                player2Type = getChoice(3);
                 swap(player1Name, player2Name);
-                static_cast<MisereX_O_Player<char>*>(players[0])->setName(player1Name);
-                static_cast<MisereX_O_Player<char>*>(players[1])->setName(player2Name);
+//              static_cast<MisereX_O_Player<char>*>(players[0])->setName(player1Name);
+//              static_cast<MisereX_O_Player<char>*>(players[1])->setName(player2Name);
                 string playersNames[2] = {player1Name, player2Name};
                 int playersTypes[2] = {player1Type, player2Type};
                 for (int i = 0; i < 2; ++i) {
@@ -187,6 +223,11 @@ int main() {
                         }
                         case 2: {
                             players[i] = new MisereX_O_Random_Player<char>((i ? 'X' : 'O'));
+                            break;
+                        }
+                        case 3: {
+                            players[i] = new X_O_MinMax_Player<char>((i ? 'X' : 'O'));
+                            players[i]->setBoard(board);
                             break;
                         }
                     }

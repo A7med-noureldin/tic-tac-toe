@@ -12,7 +12,7 @@ public:
 
 private:
     int calculateMinMax(T s, bool isMaximizing);
-    std::pair<int, int> getWorstMove();
+    pair<int, int> getWorstMove();
 };
 
 #include <limits>
@@ -26,7 +26,7 @@ X_O_MinMax_Player<T>::X_O_MinMax_Player(T symbol) : Player<T>(symbol) {
 
 template <typename T>
 void X_O_MinMax_Player<T>::getmove(int& x, int& y) {
-    std::pair<int, int> worstMove = getWorstMove();
+    pair<int, int> worstMove = getWorstMove();
     x = worstMove.first;
     y = worstMove.second;
 }
@@ -39,7 +39,7 @@ int X_O_MinMax_Player<T>::calculateMinMax(T s, bool isMaximizing) {
         return 0;
     }
 
-    int bestValue = isMaximizing ? std::numeric_limits<int>::min() : std::numeric_limits<int>::max();
+    int bestValue = isMaximizing ? numeric_limits<int>::min() : numeric_limits<int>::max();
     T opponentSymbol = (s == 'X') ? 'O' : 'X';
 
     for (int i = 0; i < 3; ++i) {
@@ -49,9 +49,9 @@ int X_O_MinMax_Player<T>::calculateMinMax(T s, bool isMaximizing) {
                 this->boardPtr->update_board(i, j, 0);
 
                 if (isMaximizing) {
-                    bestValue = std::max(bestValue, value);
+                    bestValue = max(bestValue, value);
                 } else {
-                    bestValue = std::min(bestValue, value);
+                    bestValue = min(bestValue, value);
                 }
             }
         }
@@ -61,9 +61,9 @@ int X_O_MinMax_Player<T>::calculateMinMax(T s, bool isMaximizing) {
 }
 
 template <typename T>
-std::pair<int, int> X_O_MinMax_Player<T>::getWorstMove() {
-    int worstValue = std::numeric_limits<int>::max();
-    std::pair<int, int> worstMove = {-1, -1};
+pair<int, int> X_O_MinMax_Player<T>::getWorstMove() {
+    int worstValue = numeric_limits<int>::max();
+    pair<int, int> worstMove = {-1, -1};
     T opponentSymbol = (this->symbol == 'X') ? 'O' : 'X';
 
     for (int i = 0; i < 3; ++i) {
