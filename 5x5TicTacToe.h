@@ -12,9 +12,9 @@ template <typename T>
 class TicTacToe5x5Board : public Board<T> {
 private:
     int count_three_in_a_row(T symbol);
-
 public:
     TicTacToe5x5Board();
+    ~TicTacToe5x5Board();
     bool update_board(int x, int y, T symbol);
     void display_board();
     bool is_win();
@@ -22,6 +22,14 @@ public:
     bool game_is_over();
     pair<int, int> get_scores();
 };
+
+template <typename T>
+TicTacToe5x5Board<T>::~TicTacToe5x5Board() {
+    for (int i = 0; i < this->rows; i++) {
+        delete[] this->board[i];  // Clean up each row
+    }
+    delete[] this->board;  // Clean up the main board
+}
 
 template <typename T>
 class TicTacToePlayer : public Player<T> {

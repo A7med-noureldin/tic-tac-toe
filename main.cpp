@@ -1,4 +1,3 @@
-#include <bits/stdc++.h>
 #include "BoardGame_Classes.h"
 #include "Pyramid_XO.h"
 #include "Word_TicTacToe.h"
@@ -73,7 +72,6 @@ int main() {
     Player<char>* players[2] = {nullptr, nullptr};
     Board<char>* board = nullptr;
 
-
     cout << "Welcome to FCAI X-O Game. :)\n";
 
     while (true) {
@@ -109,6 +107,8 @@ int main() {
         int playersTypes[2] = {player1Type, player2Type};
 
         switch (choice) {
+            case 0:
+                return 0;
             case 1:{
                 board = new Board_Pyramid<char>();
                 // Set up players

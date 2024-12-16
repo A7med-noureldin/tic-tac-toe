@@ -10,12 +10,21 @@ template <typename T>
 class Board_Pyramid: public Board<T> {
 public:
     Board_Pyramid();
+    ~Board_Pyramid();
     bool update_board (int x , int y , T symbol);
     void display_board ();
     bool is_win();
     bool is_draw();
     bool game_is_over();
 };
+
+template <typename T>
+Board_Pyramid<T>::~Board_Pyramid() {
+    for (int i = 0; i < this->rows; i++) {
+        delete[] this->board[i];  // Clean up each row
+    }
+    delete[] this->board;  // Clean up the main board
+}
 
 template <typename T>
 class Player_Pyramid: public Player<T>{

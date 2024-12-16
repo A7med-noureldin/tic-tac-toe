@@ -10,12 +10,21 @@ template <typename T>
 class Board4_4: public Board<T> {
 public:
     Board4_4();
+    ~Board4_4();
     void display_board ();
     bool update_board (int n , int m , T symbol);
     bool is_draw();
     bool is_win();
     bool game_is_over();
 };
+
+template <typename T>
+Board4_4<T>::~Board4_4() {
+    for (int i = 0; i < this->rows; i++) {
+        delete[] this->board[i];  // Clean up each row
+    }
+    delete[] this->board;  // Clean up the main board
+}
 
 template <typename T>
 class Player4_4: public Player<T>{

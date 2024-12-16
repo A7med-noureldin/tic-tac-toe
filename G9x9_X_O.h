@@ -6,7 +6,8 @@
 template <typename T>
 class X_O_Board:public Board<T> {
 public:
-    X_O_Board ();
+    X_O_Board();
+    ~X_O_Board();
     bool update_board (int x , int y , T symbol);
     void display_board () ;
     bool is_win() ;
@@ -14,6 +15,15 @@ public:
     bool game_is_over();
     T get_cell(int row, int col) const;
 };
+
+template <typename T>
+X_O_Board<T>::~X_O_Board() {
+    for (int i = 0; i < this->rows; i++) {
+        delete[] this->board[i];  // Clean up each row
+    }
+    delete[] this->board;  // Clean up the main board
+}
+
 template <typename T>
 T X_O_Board<T>::get_cell(int row, int col) const {
     if (row >= 0 && row < this->rows && col >= 0 && col < this->columns) {

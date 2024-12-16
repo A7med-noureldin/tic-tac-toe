@@ -7,13 +7,21 @@ template <typename T>
 class MisereX_O_Board : public Board<T> {
 public:
     MisereX_O_Board();
+    ~MisereX_O_Board();
     bool update_board(int row, int col, T symbol);
     void display_board();
     bool is_win();
     bool is_draw();
     bool game_is_over();
-    T get_board_value(int row, int col) const;
 };
+
+template <typename T>
+MisereX_O_Board<T>::~MisereX_O_Board() {
+    for (int i = 0; i < this->rows; i++) {
+        delete[] this->board[i];  // Clean up each row
+    }
+    delete[] this->board;  // Clean up the main board
+}
 
 template <typename T>
 class MisereX_O_Player : public Player<T> {
@@ -155,14 +163,6 @@ template <typename T>
 void MisereX_O_Random_Player<T>::getmove(int& row, int& col) {
     row = rand() % this->dimension;  // Random number between 0 and 2
     col = rand() % this->dimension;
-}
-
-template <typename T>
-T MisereX_O_Board<T>::get_board_value(int row, int col) const {
-    if (row >= 0 && row < this->rows && col >= 0 && col < this->columns) {
-        return this->board[row][col];
-    }
-    return 0;  // Return a default value (0) if out-of-bounds
 }
 
 #endif //_MISEREX_O_GAME_H
