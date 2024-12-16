@@ -231,14 +231,14 @@ public:
 // Constructor for X_O_Random_Player
 template <typename T>
 XO9x9_Random_Player<T>::XO9x9_Random_Player(T symbol) : RandomPlayer<T>(symbol) {
-    this->dimension = 3;
+    this->dimension = 9;
     this->name = "Random Computer Player";
     srand(static_cast<unsigned int>(time(0)));  // Seed the random number generator
 }
 
 template <typename T>
 void XO9x9_Random_Player<T>::getmove(int& x, int& y) {
-    x = rand() % this->dimension;  // Random number between 0 and 2
+    x = rand() % this->dimension;  // Random number between 0 and 8
     y = rand() % this->dimension;
 }
 
