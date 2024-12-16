@@ -1,5 +1,5 @@
-#ifndef _BOARDGAME_CLASSES_H
-#define _BOARDGAME_CLASSES_H
+#ifndef GAMETEST_BOARDGAME_CLASSES_H
+#define GAMETEST_BOARDGAME_CLASSES_H
 
 #include <string>
 #include <vector>
@@ -9,10 +9,12 @@ template <typename T>
 class Board {
 protected:
     int rows, columns;
-    int n_moves = 0;
     T** board;
+    int n_moves = 0;
 
 public:
+
+
     /// Return true if move is valid and put it on the board
     /// within board boundaries in an empty cell
     /// Return false otherwise
@@ -97,14 +99,13 @@ void GameManager<T>::run() {
 
     while (!boardPtr->game_is_over()) {
         for (int i : {0, 1}) {
-            cout << "Getting move" << endl;
             players[i]->getmove(x, y);
             while (!boardPtr->update_board(x, y, players[i]->getsymbol())) {
                 players[i]->getmove(x, y);
             }
             boardPtr->display_board();
             if (boardPtr->is_win()) {
-                cout << players[i]->getname() << " wins\n";
+                cout << players[i]->getname() << " wins!\n";
                 return;
             }
             if (boardPtr->is_draw()) {
@@ -151,27 +152,6 @@ T Player<T>::getsymbol() {
 template <typename T>
 void Player<T>::setBoard(Board<T>* b) {
     this->boardPtr = b;
-    cout << "Board pointer set for player: " << this->name << endl;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#endif //_BOARDGAME_CLASSES_H
-
+#endif //GAMETEST_BOARDGAME_CLASSES_H

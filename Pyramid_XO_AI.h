@@ -10,7 +10,7 @@ private:
     pair<int, int> getBestMove();
 
 public:
-    PyramidAI(T symbol);
+    PyramidAI(string k, T symbol);
     void getmove(int& x, int& y) override;
 };
 
@@ -23,11 +23,8 @@ using namespace std;
 set<pair<int,int>> invalidPos = {{0,0}, {0,1}, {0,3}, {0,4}, {1,0}, {1,4}}; // Invalid positions
 
 template<typename T>
-PyramidAI<T>::PyramidAI(T symbol):Player<T>(symbol) {
-    static int i = 1;
-    string temp = "AI Player " + to_string(i);
-    i++;
-    this->name = temp;
+PyramidAI<T>::PyramidAI(string k, T symbol):Player<T>(symbol) {
+    this->name = k;
 }
 
 template <typename T>
